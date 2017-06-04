@@ -132,6 +132,6 @@ var msg = QYMessage{
 func (self *QYMessage) SendText() string {
 	self.MsgType = "text"
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s", self.GetToken())
-	resp, _ := gohttp.NewClient().URL(url).Header("Content-Type","application/json;charset=utf-8").Post()
+	resp, _ := gohttp.NewClient().URL(url).Body(self).Header("Content-Type","application/json;charset=utf-8").Post()
 	return resp.String()
 }
