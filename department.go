@@ -3,13 +3,12 @@ package wechat
 import (
 	//"net/http"
 	"bytes"
-	"github.com/luopengift/golibs/logger"
 	"encoding/json"
 	"fmt"
+	"github.com/luopengift/golibs/logger"
 	"io/ioutil"
 	"net/http"
 )
-
 
 type Department struct {
 	Name     string `json:"name"`     //部门名称。长度限制为32个字（汉字或英文字母），字符不能包括\:*?"<>｜
@@ -20,10 +19,9 @@ type Department struct {
 }
 
 type DeptCtx struct {
-    *WeChatCtx      `json:"-"`
-    *Department
+	*WeChatCtx `json:"-"`
+	*Department
 }
-
 
 //创建部门
 func (self *DeptCtx) Create() {
@@ -35,13 +33,13 @@ func (self *DeptCtx) Create() {
 	body := bytes.NewBuffer([]byte(dept))
 	resp, err := http.Post(url, "application/json;charset=utf-8", body)
 	if err != nil {
-		logger.Error("error",err)
+		logger.Error("error", err)
 	}
 
 	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
-		logger.Error("error",err)
+		logger.Error("error", err)
 		return
 	}
 	logger.Info(string(result))
@@ -58,14 +56,14 @@ func (self *DeptCtx) Update() {
 	body := bytes.NewBuffer([]byte(dept))
 	resp, err := http.Post(url, "application/json;charset=utf-8", body)
 	if err != nil {
-		logger.Error("error",err)
-	    return
-    }
+		logger.Error("error", err)
+		return
+	}
 
 	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
-		logger.Error("error",err)
+		logger.Error("error", err)
 		return
 	}
 	logger.Info(string(result))
@@ -77,24 +75,24 @@ func (self *DeptCtx) Delete(id int) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/delete?access_token=%s&id=%d", self.GetToken(), id)
 	resp, err := http.Get(url)
 	if err != nil {
-		logger.Error("error",err)
+		logger.Error("error", err)
 		return
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	logger.Info(string(body))
 }
+
 //获取部门列表
 func (self *DeptCtx) GetList(id int) {
-    url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=%s&id=%d",self.GetToken(), id)
+	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=%s&id=%d", self.GetToken(), id)
 	logger.Info(url)
-    resp, err := http.Get(url)
-    if err != nil {
-		logger.Error("error",err)
+	resp, err := http.Get(url)
+	if err != nil {
+		logger.Error("error", err)
 		return
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	logger.Info("部门列表:",string(body))
+	logger.Info("部门列表:", string(body))
 }
-

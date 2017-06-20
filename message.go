@@ -1,10 +1,10 @@
 package wechat
 
 import (
-    "time"
 	"encoding/xml"
 	"fmt"
 	"github.com/luopengift/gohttp"
+	"time"
 )
 
 var Agentid = map[string]int{"企业小助手": 0, "监控告警": 1}
@@ -72,35 +72,32 @@ type user struct {
 
 type Message struct {
 	XMLName    xml.Name `xml:"xml"`
-	ToUser     user    `xml:"ToUserName"`
-	FromUser   user    `xml:"FromUserName"`
-	CreateTime int64   `xml:"CreateTime"`
-	MsgType    msgType `xml:"MsgType"`
-	Content        text `xml:"Content"` //文本消息
-    Test        string  `xml:"TEST"`
+	ToUser     user     `xml:"ToUserName"`
+	FromUser   user     `xml:"FromUserName"`
+	CreateTime int64    `xml:"CreateTime"`
+	MsgType    msgType  `xml:"MsgType"`
+	Content    text     `xml:"Content"` //文本消息
+	Test       string   `xml:"TEST"`
 }
 
-func NewTextMsg(from,to,content string) *Message{
-    return &Message{
-        ToUser: user{to},
-        FromUser:user{from},
-        CreateTime:time.Now().Unix(),
-        MsgType:msgType{"text"},
-        Content:text{content},
-    }
+func NewTextMsg(from, to, content string) *Message {
+	return &Message{
+		ToUser:     user{to},
+		FromUser:   user{from},
+		CreateTime: time.Now().Unix(),
+		MsgType:    msgType{"text"},
+		Content:    text{content},
+	}
 }
 
-func NewMusicMsg(from,to string) *Message {
-    return nil
+func NewMusicMsg(from, to string) *Message {
+	return nil
 }
 
-func (self *Message) ToUserName() string { return self.ToUser.Name }
+func (self *Message) ToUserName() string   { return self.ToUser.Name }
 func (self *Message) FromUserName() string { return self.FromUser.Name }
-func (self *Message) Text() string { return self.Content.Text }
-func (self *Message) Type() string { return self.MsgType.Type }
-
-
-
+func (self *Message) Text() string         { return self.Content.Text }
+func (self *Message) Type() string         { return self.MsgType.Type }
 
 type QYMessage struct {
 	*WeChatCtx `json:"-" xml:"-"`
@@ -132,6 +129,6 @@ var msg = QYMessage{
 func (self *QYMessage) SendText() string {
 	self.MsgType = "text"
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s", self.GetToken())
-	resp, _ := gohttp.NewClient().URL(url).Body(self).Header("Content-Type","application/json;charset=utf-8").Post()
+	resp, _ := gohttp.NewClient().URL(url).Body(self).Header("Content-Type", "application/json;charset=utf-8").Post()
 	return resp.String()
 }
