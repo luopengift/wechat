@@ -19,13 +19,13 @@ type WeChatCtx struct {
 func (self *WeChatCtx) GetServerList() []string {
 	url := fmt.Sprintf(Url(self.GetType(), "GetServerList"), self.GetToken())
 	//url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s",self.GetToken())
-	resp, err := gohttp.NewClient().URL(url).Get()
+	resp, err := gohttp.NewClient().Url(url).Get()
 	if err != nil || resp.Code() != 200 {
 		logger.Error("NewClient:%v,%v", err, resp.String())
 		return []string{}
 	}
 	list := map[string][]string{}
-	bytes, _ := resp.Bytes()
+	bytes := resp.Bytes()
 	err = json.Unmarshal(bytes, &list)
 	if err != nil {
 		logger.Error("serverlist:%v,%v", err, resp.String())

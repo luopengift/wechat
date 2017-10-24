@@ -9,6 +9,8 @@ import (
 var wechat *WeChatCtx
 
 func Test_wechat(t *testing.T) {
+    corpID := ""
+    secret := ""
 	logger.Info("企业号测试...")
 	wechat = NewWeChatCtx(corpID, secret)
 	wechat.SetType(QY)

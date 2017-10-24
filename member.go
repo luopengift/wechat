@@ -85,7 +85,7 @@ func (self *MemberCtx) Update() {
 //删除成员
 func (self *MemberCtx) Delete(id int) (*gohttp.Response, error) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/user/delete?access_token=%s&userid=%d", self.GetToken(), id)
-	resp, err := gohttp.NewClient().URL(url).Get()
+	resp, err := gohttp.NewClient().Url(url).Get()
 	return resp, err
 }
 
@@ -94,7 +94,7 @@ func (self *MemberCtx) Delete(id int) (*gohttp.Response, error) {
 //获取成员
 func (self *MemberCtx) GetUser(userid string) (*gohttp.Response, error) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s", self.GetToken(), userid)
-	resp, err := gohttp.NewClient().URL(url).Get()
+	resp, err := gohttp.NewClient().Url(url).Get()
 	return resp, err
 }
 
@@ -110,7 +110,7 @@ status          否      0获取全部成员，1获取已关注成员列表，2�
 func (self *MemberCtx) GetSimpleUserListByDepartment(department_id int) (*gohttp.Response, error) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?access_token=%s&department_id=%d&fetch_child=%d&status=%d",
 		self.GetToken(), department_id, 1, 0)
-	resp, err := gohttp.NewClient().URL(url).Get()
+	resp, err := gohttp.NewClient().Url(url).Get()
 	return resp, err
 }
 
@@ -118,6 +118,6 @@ func (self *MemberCtx) GetSimpleUserListByDepartment(department_id int) (*gohttp
 func (self *MemberCtx) GetUserListByDepartment(department_id int) (*gohttp.Response, error) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/user/list?access_token=%s&department_id=%d&fetch_child=%d&status=%d",
 		self.GetToken(), department_id, 1, 0)
-	resp, err := gohttp.NewClient().URL(url).Get()
+	resp, err := gohttp.NewClient().Url(url).Get()
 	return resp, err
 }

@@ -35,8 +35,8 @@ func (self *Token) GetType() int64 {
 func (self *Token) GetToken() string {
 	if self.ExpiresTime <= time.Now().Unix() || self.ExpiresIn == 0 {
 		url := fmt.Sprintf(Url(self.GetType(), "GetToken"), self.AppID, self.AppSecret)
-		resp, _ := gohttp.NewClient().URL(url).Get() //("GET",url,nil,nil,nil)
-		bytes, _ := resp.Bytes()
+		resp, _ := gohttp.NewClient().Url(url).Get() //("GET",url,nil,nil,nil)
+		bytes := resp.Bytes()
 		err := json.Unmarshal(bytes, self)
 		if err != nil {
 			logger.Error("Token Error:%v,%v", err, resp.String())
