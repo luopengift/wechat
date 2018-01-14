@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/luopengift/golibs/logger"
+	"github.com/luopengift/log"
 	"io/ioutil"
 	"net/http"
 )
@@ -28,21 +28,21 @@ func (self *DeptCtx) Create() {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/create?access_token=%s", self.GetToken())
 	dept, err := json.Marshal(self)
 	if err != nil {
-		logger.Error("json err:", err)
+		log.Error("json err:", err)
 	}
 	body := bytes.NewBuffer([]byte(dept))
 	resp, err := http.Post(url, "application/json;charset=utf-8", body)
 	if err != nil {
-		logger.Error("error", err)
+		log.Error("error", err)
 	}
 
 	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
-		logger.Error("error", err)
+		log.Error("error", err)
 		return
 	}
-	logger.Info(string(result))
+	log.Info(string(result))
 
 }
 
@@ -51,22 +51,22 @@ func (self *DeptCtx) Update() {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/update?access_token=%s", self.GetToken())
 	dept, err := json.Marshal(self)
 	if err != nil {
-		logger.Error("json err:", err)
+		log.Error("json err:", err)
 	}
 	body := bytes.NewBuffer([]byte(dept))
 	resp, err := http.Post(url, "application/json;charset=utf-8", body)
 	if err != nil {
-		logger.Error("error", err)
+		log.Error("error", err)
 		return
 	}
 
 	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
-		logger.Error("error", err)
+		log.Error("error", err)
 		return
 	}
-	logger.Info(string(result))
+	log.Info(string(result))
 
 }
 
@@ -75,24 +75,24 @@ func (self *DeptCtx) Delete(id int) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/delete?access_token=%s&id=%d", self.GetToken(), id)
 	resp, err := http.Get(url)
 	if err != nil {
-		logger.Error("error", err)
+		log.Error("error", err)
 		return
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	logger.Info(string(body))
+	log.Info(string(body))
 }
 
 //获取部门列表
 func (self *DeptCtx) GetList(id int) {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=%s&id=%d", self.GetToken(), id)
-	logger.Info(url)
+	log.Info(url)
 	resp, err := http.Get(url)
 	if err != nil {
-		logger.Error("error", err)
+		log.Error("error", err)
 		return
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	logger.Info("部门列表:", string(body))
+	log.Info("部门列表: %s", string(body))
 }

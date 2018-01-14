@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/luopengift/gohttp"
-	"github.com/luopengift/golibs/logger"
+	"github.com/luopengift/log"
 )
 
 type WeChatCtx struct {
@@ -21,20 +21,20 @@ func (self *WeChatCtx) GetServerList() []string {
 	//url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s",self.GetToken())
 	resp, err := gohttp.NewClient().Url(url).Get()
 	if err != nil || resp.Code() != 200 {
-		logger.Error("NewClient:%v,%v", err, resp.String())
+		log.Error("NewClient:%v,%v", err, resp.String())
 		return []string{}
 	}
 	list := map[string][]string{}
 	bytes := resp.Bytes()
 	err = json.Unmarshal(bytes, &list)
 	if err != nil {
-		logger.Error("serverlist:%v,%v", err, resp.String())
+		log.Error("serverlist:%v,%v", err, resp.String())
 		return self.ServerList
 	}
 	if value, ok := list["ip_list"]; ok {
 		self.ServerList = value
 	}
-	logger.Info("", self.ServerList)
+	log.Info("", self.ServerList)
 	return self.ServerList
 }
 

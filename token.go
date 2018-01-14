@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/luopengift/gohttp"
-	"github.com/luopengift/golibs/logger"
+	"github.com/luopengift/log"
 	"time"
 )
 
@@ -39,11 +39,11 @@ func (self *Token) GetToken() string {
 		bytes := resp.Bytes()
 		err := json.Unmarshal(bytes, self)
 		if err != nil {
-			logger.Error("Token Error:%v,%v", err, resp.String())
+			log.Error("Token Error:%v,%v", err, resp.String())
 			return ""
 		}
 		self.ExpiresTime = time.Now().Unix() + self.ExpiresIn
-		logger.Info("TOKEN is", self.AccessToken)
+		log.Info("TOKEN is %s", self.AccessToken)
 	}
 	return self.AccessToken
 }

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/luopengift/gohttp"
-	"github.com/luopengift/golibs/logger"
+	"github.com/luopengift/log"
 	"io/ioutil"
 	"net/http"
 )
@@ -41,22 +41,22 @@ func (self *MemberCtx) Create() {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=%s", self.GetToken())
 	member, err := json.Marshal(self)
 	if err != nil {
-		logger.Error("json err:", err)
+		log.Error("json err:", err)
 	}
-	logger.Debug("member", string(member))
+	log.Debug("member", string(member))
 	body := bytes.NewBuffer(member)
 	resp, err := http.Post(url, "application/json;charset=utf-8", body)
 	if err != nil {
-		logger.Error("", err)
+		log.Error("", err)
 	}
 
 	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
-		logger.Error("", err)
+		log.Error("", err)
 		return
 	}
-	logger.Info(string(result))
+	log.Info(string(result))
 }
 
 //更新成员，如果非必须的字段未指定，则不更新该字段之前的设置值
@@ -64,21 +64,21 @@ func (self *MemberCtx) Update() {
 	url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/update/update?access_token=%s", self.GetToken())
 	dept, err := json.Marshal(self)
 	if err != nil {
-		logger.Error("json err:", err)
+		log.Error("json err:", err)
 	}
 	body := bytes.NewBuffer([]byte(dept))
 	resp, err := http.Post(url, "application/json;charset=utf-8", body)
 	if err != nil {
-		logger.Error("", err)
+		log.Error("", err)
 	}
 
 	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
-		logger.Error("", err)
+		log.Error("", err)
 		return
 	}
-	logger.Info(string(result))
+	log.Info(string(result))
 
 }
 
