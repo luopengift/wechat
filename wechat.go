@@ -34,7 +34,6 @@ func (self *WeChatCtx) GetServerList() []string {
 	if value, ok := list["ip_list"]; ok {
 		self.ServerList = value
 	}
-	log.Info("%v", self.ServerList)
 	return self.ServerList
 }
 
