@@ -1,19 +1,23 @@
 package wechat
 
+// ErrInfo err info
 type ErrInfo struct {
-	ErrCode int    `json:errocde`
-	ErrMsg  string `json"errmsg`
+	ErrCode int    `json:"errocde"`
+	ErrMsg  string `json:"errmsg"`
 }
 
-func (self *ErrInfo) Set(code int, msg string) {
-	self.ErrCode = code
-	self.ErrMsg = msg
+// Set set
+func (err *ErrInfo) Set(code int, msg string) {
+	err.ErrCode = code
+	err.ErrMsg = msg
 }
 
-func (self *ErrInfo) GetCode() int {
-	return self.ErrCode
+// GetCode get code
+func (err *ErrInfo) GetCode() int {
+	return err.ErrCode
 }
 
-func (self *ErrInfo) GetMsg() string {
-	return self.ErrMsg
+// GetMsg get msg
+func (err *ErrInfo) GetMsg() string {
+	return err.ErrMsg
 }

@@ -3,23 +3,26 @@ package wechat
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/luopengift/gohttp"
 	"github.com/luopengift/log"
 )
 
-type WeChatCtx struct {
+// Context wechat ctx
+type Context struct {
 	*Token
 	*ErrInfo
 	*Department
 	*Member
-	*UrlMap
+	*URLMap
 	ServerList []string `json:"serverlist"`
 }
 
-func (self *WeChatCtx) GetServerList() []string {
-	url := fmt.Sprintf(Url(self.GetType(), "GetServerList"), self.GetToken())
+// GetServerList get server list
+func (ctx *Context) GetServerList() []string {
+	url := fmt.Sprintf(URL(ctx.GetType(), "GetServerList"), ctx.GetToken())
 	//url := fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s",self.GetToken())
-	resp, err := gohttp.NewClient().Url(url).Get()
+	resp, err := gohttp.NewClient().URLString(url).Get()
 	if err != nil || resp.Code() != 200 {
 		log.Error("NewClient:%v,%v", err, resp.String())
 		return []string{}
@@ -29,14 +32,15 @@ func (self *WeChatCtx) GetServerList() []string {
 	err = json.Unmarshal(bytes, &list)
 	if err != nil {
 		log.Error("serverlist:%v,%v", err, resp.String())
-		return self.ServerList
+		return ctx.ServerList
 	}
 	if value, ok := list["ip_list"]; ok {
-		self.ServerList = value
+		ctx.ServerList = value
 	}
-	return self.ServerList
+	return ctx.ServerList
 }
 
-func NewWeChatCtx(appid, appsecret string) *WeChatCtx {
-	return &WeChatCtx{&Token{AppID: appid, AppSecret: appsecret}, &ErrInfo{}, &Department{}, &Member{}, &UrlMap{}, []string{}}
+// NewWeChatCtx new wechat ctx
+func NewWeChatCtx(appid, appsecret string) *Context {
+	return &Context{&Token{AppID: appid, AppSecret: appsecret}, &ErrInfo{}, &Department{}, &Member{}, &URLMap{}, []string{}}
 }

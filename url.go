@@ -21,19 +21,21 @@ var urlMap = map[int64]map[string]string{
 	SR: {},
 }
 
-type UrlMap struct {
-	GetTokenUrl         string
-	GetServerListUrl    string
-	UploadMediaUrl      string
-	GetMediaUrl         string
-	UploadMaterialUrl   string
-	GetMaterialUrl      string
-	DelMaterialUrl      string
-	UpdateNewsUrl       string
-	GetMaterialCountUrl string
-	GetMaterialListUrl  string
+// URLMap url map
+type URLMap struct {
+	GetTokenURL         string
+	GetServerListURL    string
+	UploadMediaURL      string
+	GetMediaURL         string
+	UploadMaterialURL   string
+	GetMaterialURL      string
+	DelMaterialURL      string
+	UpdateNewsURL       string
+	GetMaterialCountURL string
+	GetMaterialListURL  string
 }
 
-func Url(_type int64, name string) string {
+// URL url
+func URL(_type int64, name string) string {
 	return urlMap[_type][name]
 }

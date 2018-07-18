@@ -1,13 +1,13 @@
-//素材
 package wechat
 
 import (
 	"fmt"
+
 	"github.com/luopengift/gohttp"
 )
 
-func (self *WeChatCtx) upload() {
+func (ctx *Context) upload() {
 	//gohttp.MyClient("POST",fmt.Sprintf(Url(self.GetType(),"UploadMedia"),self.GetToken()),nil,nil,nil)
-	url := fmt.Sprintf(Url(self.GetType(), "UploadMedia"), self.GetToken())
-	gohttp.NewClient().Url(url).Post()
+	url := fmt.Sprintf(URL(ctx.GetType(), "UploadMedia"), ctx.GetToken())
+	gohttp.NewClient().URLString(url).Post()
 }
